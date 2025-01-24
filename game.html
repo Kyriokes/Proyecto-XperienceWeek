@@ -3,8 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Juego de la Cuarentena</title>
+    <link rel="icon" type="image/gif" href="Resources/player.gif">  <!--- el href cambia la imagen de la pesta;a del navegador-->>
     <style>
-        /* Configuración básica del estilo */
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5; /* Color de fondo */
+        }
+        canvas {
+            background: url('Resources/casa.png') no-repeat center;
+            background-size: cover; /* Ajusta la imagen de fondo al lienzo */
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -14,46 +27,177 @@
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
-        // Configuración inicial de las variables
-        const player = { /* Configuración inicial del jugador */ };
-        const food = { /* Configuración inicial de la comida */ };
-        const clockDigits = [/* Digitos del reloj */];
-        let score = 0; // Puntuación del jugador
-        let countdown = 60; // Tiempo inicial del temporizador
+        // Variables del jugador y la comida
+        const player = { 
+            x: 120, 
+            y: 450, 
+            width: 40, 
+            height: 40, 
+            image: new Image(), // Cabeza del jugador
+            body: new Image(),  // Cuerpo inicial del jugador
+            direction: null
+        };
+        player.image.src = 'Resources/player.gif'; // Cabeza del jugador
+        player.body.src = 'Resources/homen1.gif';  // Cuerpo inicial del jugador
+
+        // Definir los diferentes tipos de comida
+        const foodTypes = [
+            { image: 'Resources/pizza.gif', score: 1 },
+            { image: 'Resources/hotdog.gif', score: 2 },
+            { image: 'Resources/helado.gif', score: 3 },
+            { image: 'Resources/hamburguer.gif', score: 4 },
+            { image: 'Resources/donut.gif', score: 5 },
+            { image: 'Resources/cupcake.gif', score: 6 }
+        ];
+
+        // Comida inicial
+        let food = { 
+            x: 100, 
+            y: 100, 
+            width: 40, 
+            height: 40, 
+            image: new Image(),
+            score: 0
+        };
+        food.image.src = foodTypes[Math.floor(Math.random() * foodTypes.length)].image;
+        food.score = foodTypes[Math.floor(Math.random() * foodTypes.length)].score;
+
+        // Imagenes del reloj
+        const clockImages = [
+            'Resources/cero.gif', 'Resources/uno.gif', 'Resources/dos.gif', 'Resources/tres.gif',
+            'Resources/cuatro.gif', 'Resources/cinco.gif', 'Resources/seis.gif', 'Resources/siete.gif',
+            'Resources/ocho.gif', 'Resources/nueve.gif'
+        ];
+
+        let clockDigits = [
+            { x: 10, y: 10, image: new Image() },
+            { x: 60, y: 10, image: new Image() }
+        ];
+
+        // Inicializar los dígitos del reloj
+        
+        let countdown = 60; // Tiempo inicial
+        clockDigits[0].image.src = clockImages[Math.floor(countdown / 10)];
+        clockDigits[1].image.src = clockImages[countdown % 10];
+
+        let score = 0; // Puntuación inicial
+        let gameStarted = false; // Estado del juego
+
+        // Variable para almacenar la dirección del movimiento
+        let moving = null;
 
         // Función para mover al jugador
         function movePlayer() {
-            // Tu código aquí
+            if (moving === "up") player.y -= 10;
+            if (moving === "down") player.y += 10;
+            if (moving === "left") player.x -= 10;
+            if (moving === "right") player.x += 10;
         }
 
-        // Función para verificar colisiones
+        // Función para verificar colisiones (jugador con comida)
         function checkCollision() {
-            // Tu código aquí
+            if (
+                player.x < food.x + food.width &&
+                player.x + player.width > food.x &&
+                player.y < food.y + food.height &&
+                player.y + player.height > food.y
+            ) {
+                score++;
+                changeBody(); // Cambiar el cuerpo del jugador cada vez que recoge comida
+                food.x = Math.random() * canvas.width; // Nueva posición de la comida
+                food.y = Math.random() * canvas.height;
+                food.image.src = foodTypes[Math.floor(Math.random() * foodTypes.length)].image; // Nueva comida
+                food.score = foodTypes[Math.floor(Math.random() * foodTypes.length)].score; // Nueva puntuación de comida
+            }
+        }
+
+        // Función para cambiar el cuerpo del jugador según su puntuación
+        function changeBody() {
+            if (score >= 5) {
+                player.body.src = 'Resources/homen2.gif'; // Cuerpo después de 5 puntos
+            }
+            if (score >= 10) {
+                player.body.src = 'Resources/homen3.gif'; // Cuerpo después de 10 puntos
+            }
+            if (score >= 15) {
+                player.body.src = 'Resources/homen4.gif'; // Cuerpo después de 15 puntos
+            }
         }
 
         // Función para actualizar el temporizador
-        function updateClock() {
-            // Tu código aquí
+        function startTimer() {
+            const interval = setInterval(() => {
+                countdown--;
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    alert("¡Tiempo fuera! Tu puntuación final es: " + score);
+                }
+                // Actualizar los dígitos del temporizador
+                clockDigits[0].image.src = clockImages[Math.floor(countdown / 10)];
+                clockDigits[1].image.src = clockImages[countdown % 10];
+            }, 1000);
         }
 
         // Función principal de renderizado
         function draw() {
-            // Tu código aquí
+            // Limpiar el lienzo
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Dibujar al jugador (cabeza y cuerpo)
+            ctx.drawImage(player.image, player.x, player.y, player.width, player.height); // Cabeza
+            ctx.drawImage(player.body, player.x, player.y + player.height, player.width, player.height); // Cuerpo
+
+            // Dibujar la comida
+            ctx.drawImage(food.image, food.x, food.y, food.width, food.height);
+
+            // Dibujar el temporizador (imágen del reloj)
+            ctx.drawImage(clockDigits[0].image, 10, 10, 50, 50); // Mostrar los dígitos del reloj
+            ctx.drawImage(clockDigits[1].image, 60, 10, 50, 50); // Mostrar los dígitos del reloj
+
+            // Mostrar la puntuación
+            ctx.font = '20px Arial';
+            ctx.fillStyle = 'black';
+            ctx.fillText('Puntuación: ' + score, 10, 30);
+            ctx.fillText('Tiempo: ' + countdown, 10, 60);
         }
 
         // Bucle principal del juego
         function gameLoop() {
-            // Tu código aquí
+            if (gameStarted) {
+                movePlayer(); // Mover al jugador
+                checkCollision(); // Verificar colisiones
+                draw(); // Renderizar todo
+            }
         }
 
         // Función para manejar eventos de teclado
         document.addEventListener("keydown", (e) => {
-            // Tu código aquí
+            // Solo actualiza la dirección cuando una tecla es presionada
+            if (e.key === "ArrowUp") moving = "up";
+            if (e.key === "ArrowDown") moving = "down";
+            if (e.key === "ArrowLeft") moving = "left";
+            if (e.key === "ArrowRight") moving = "right";
         });
 
-        // Función para iniciar el juego
+        // Función para manejar cuando se suelta una tecla
+        document.addEventListener("keyup", (e) => {
+            // Detiene el movimiento cuando la tecla es soltada
+            if (
+                e.key === "ArrowUp" ||
+                e.key === "ArrowDown" ||
+                e.key === "ArrowLeft" ||
+                e.key === "ArrowRight"
+            ) {
+                moving = null; // Detiene el movimiento
+            }
+        });
+
+        // Función para iniciar el juego cuando se hace clic
         document.addEventListener("click", () => {
-            // Tu código aquí
+            if (!gameStarted) {
+                gameStarted = true;
+                startTimer();
+            }
         });
 
         // Iniciar el bucle principal
@@ -61,6 +205,3 @@
     </script>
 </body>
 </html>
-
-        <!--empezando desde cero-->
-        <!---y agregamos comentarios-->>
