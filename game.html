@@ -17,11 +17,78 @@
         canvas {
             background: url('Resources/casa.png') no-repeat center;
             background-size: cover;
+            border: 5px solid #1d7e25; /* Borde del Lienzo*/
+            border-radius: 10px;/*Bordes redondeados */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 3); /* Sombra*/
         }
+
+        #gameContainer{
+            position: relative;
+            display: inline-block;
+        }
+
+        #infoBar{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            top: -10%; /*Ajustar la posicion sobre el canvas*/
+            left: 5%; /*Centrarse con el canvas*/
+            width: 90%; /*Coincidir con el ancho del canvas*/
+            padding: 5px 10px;
+            background: #f5f5f5;
+            border: 2px solid #333;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 12px;
+        }
+
+        /*Estilo de la barra del temporizador*/
+        #timerContainer{
+            flex: 1;
+            height: 20px;
+            background: #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        #timerBar {
+            height: 100%;
+            width: 100%; /*Ancho dinamico*/
+            background: green; /*Cambia de verde a rojo dinamicamente*/
+            transition: width 0.5s linear, background-color 0.5s linear;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        /*Estilo del puntaje*/
+        #scoreDisplay {
+                font-size: 18px;
+                font-weight: bold;
+                color: black;
+        }
+
+
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="600" height="600"></canvas>
+    <section id="gameContainer"> <!--Contenedor principal del juego-->
+        <!--Barra de informacion del temporizador y puntuacion-->
+        <div id="infoBar">
+            <div id="timerContainer">
+                <div id="timerBar">60s</div> <!--temporizador con tiempo restante-->
+            </div>
+            <div id="scoreDisplay">Puntacion: 0</div> <!--Puntuacion-->
+        </div>
+        <canvas id="gameCanvas" width="600" height="600"></canvas>
+    </section>
+    
 
     <script>
         const canvas = document.getElementById("gameCanvas");
