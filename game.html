@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de la Cuarentena</title>
+    <link rel="icon" href="Resources/player.gif">
     <style>
-        /* Configuración básica del estilo */
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        canvas {
+            background: url('Resources/casa.png') no-repeat center;
+            background-size: cover;
+        }
     </style>
 </head>
 <body>
@@ -14,49 +27,179 @@
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
-        // Configuración inicial de las variables
-        const player = { /* Configuración inicial del jugador */ };
-        const food = { /* Configuración inicial de la comida */ };
-        const clockDigits = [/* Digitos del reloj */];
-        let score = 0; // Puntuación del jugador
-        let countdown = 60; // Tiempo inicial del temporizador
+        // Variables del jugador
+        const player = {
+            x: 120,
+            y: 450,
+            width: 40,
+            height: 40,
+            image: new Image(),
+            body: new Image()
+        };
+        player.image.src = 'Resources/player.gif';
+        player.body.src = 'Resources/homen1.gif';
 
-        // Función para mover al jugador
-        function movePlayer() {
-            // Tu código aquí
+        // Tipos de comida
+        const foodTypes = [
+            { image: 'Resources/pizza.gif', points: 10 },
+            { image: 'Resources/hotdog.gif', points: 20 },
+            { image: 'Resources/helado.gif', points: 30 },
+            { image: 'Resources/hamburguer.gif', points: 40 },
+            { image: 'Resources/donut.gif', points: 50 }
+        ];
+
+        // Comida inicial
+        let food = {
+            x: Math.random() * (canvas.width - 40),
+            y: Math.random() * (canvas.height - 40),
+            width: 40,
+            height: 40,
+            image: new Image(),
+            points: 0
+        };
+
+        function generateRandomFood() {
+            const randomFood = foodTypes[Math.floor(Math.random() * foodTypes.length)];
+            food.image.src = randomFood.image;
+            food.points = randomFood.points;
+            food.x = Math.random() * (canvas.width - food.width);
+            food.y = Math.random() * (canvas.height - food.height);
         }
 
-        // Función para verificar colisiones
-        function checkCollision() {
-            // Tu código aquí
-        }
+        generateRandomFood();
 
-        // Función para actualizar el temporizador
+        // Reloj
+        const clock = {
+            background: new Image(),
+            digits: [new Image(), new Image()],
+            x: canvas.width - 120, // Posición del reloj en la esquina superior derecha
+            y: 10,
+            width: 100,
+            height: 50
+        };
+        clock.background.src = 'Resources/Reloj.gif';
+
+        const digitImages = [
+            'Resources/cero.gif', 'Resources/uno.gif', 'Resources/dos.gif', 'Resources/tres.gif',
+            'Resources/cuatro.gif', 'Resources/cinco.gif', 'Resources/seis.gif',
+            'Resources/siete.gif', 'Resources/ocho.gif', 'Resources/nueve.gif'
+        ];
+
+        let score = 0;
+        let countdown = 60; // Tiempo inicial en segundos
+        let gameStarted = false;
+
         function updateClock() {
-            // Tu código aquí
+            const tens = Math.floor(countdown / 10); // Dígito de las decenas
+            const ones = countdown % 10;            // Dígito de las unidades
+            clock.digits[0].src = digitImages[tens]; // Actualiza la imagen del primer dígito
+            clock.digits[1].src = digitImages[ones]; // Actualiza la imagen del segundo dígito
         }
 
-        // Función principal de renderizado
+        updateClock();
+
+        // Movimiento del jugador
+        const movement = { up: false, down: false, left: false, right: false };
+
+        function movePlayer() {
+            const speed = 11;
+            if (movement.up && player.y > 0) player.y -= speed;
+            if (movement.down && player.y < canvas.height - player.height) player.y += speed;
+            if (movement.left && player.x > 0) player.x -= speed;
+            if (movement.right && player.x < canvas.width - player.width) player.x += speed;
+        }
+
+        // Colisión entre jugador y comida
+        function checkCollision() {
+            if (
+                player.x < food.x + food.width &&
+                player.x + player.width > food.x &&
+                player.y < food.y + food.height &&
+                player.y + player.height > food.y
+            ) {
+                score += food.points;
+                generateRandomFood();
+                changeBody();
+            }
+        }
+
+        // Cambiar el cuerpo del jugador según su puntaje
+        function changeBody() {
+            if (score >= 50) player.body.src = 'Resources/homen2.gif';
+            if (score >= 100) player.body.src = 'Resources/homen3.gif';
+            if (score >= 150) player.body.src = 'Resources/homen4.gif';
+        }
+
+        // Temporizador
+        function startTimer() {
+            const interval = setInterval(() => {
+                if (countdown > 0) {
+                    countdown--;
+                    updateClock(); // Actualiza las imágenes del reloj
+                } else {
+                    clearInterval(interval);
+                    alert("¡Tiempo fuera! Tu puntuación final es: " + score);
+                    gameStarted = false;
+                }
+            }, 1000);
+        }
+
+        // Dibujar todo en el canvas
         function draw() {
-            // Tu código aquí
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Dibujar el cuerpo y la cabeza del jugador
+            ctx.drawImage(player.body, player.x, player.y + player.height, player.width, player.height);
+            ctx.drawImage(player.image, player.x, player.y, player.width, player.height);
+
+            // Dibujar la comida
+            ctx.drawImage(food.image, food.x, food.y, food.width, food.height);
+
+            // Dibujar el reloj
+            ctx.drawImage(clock.background, clock.x, clock.y, clock.width, clock.height); // Fondo del reloj
+            ctx.drawImage(clock.digits[0], clock.x + 10, clock.y + 10, 30, 30); // Dígito de las decenas
+            ctx.drawImage(clock.digits[1], clock.x + 50, clock.y + 10, 30, 30); // Dígito de las unidades
+
+            // Mostrar puntaje
+            ctx.font = '20px Arial';
+            ctx.fillStyle = 'black';
+            ctx.fillText('Puntuación: ' + score, 10, 30);
         }
 
         // Bucle principal del juego
         function gameLoop() {
-            // Tu código aquí
+            if (gameStarted) {
+                movePlayer();
+                checkCollision();
+                draw();
+            }
         }
 
-        // Función para manejar eventos de teclado
+        // Detectar teclas presionadas
         document.addEventListener("keydown", (e) => {
-            // Tu código aquí
+            if (e.key === "ArrowUp") movement.up = true;
+            if (e.key === "ArrowDown") movement.down = true;
+            if (e.key === "ArrowLeft") movement.left = true;
+            if (e.key === "ArrowRight") movement.right = true;
         });
 
-        // Función para iniciar el juego
+        // Detectar teclas soltadas
+        document.addEventListener("keyup", (e) => {
+            if (e.key === "ArrowUp") movement.up = false;
+            if (e.key === "ArrowDown") movement.down = false;
+            if (e.key === "ArrowLeft") movement.left = false;
+            if (e.key === "ArrowRight") movement.right = false;
+        });
+
+        // Iniciar el juego al hacer clic
         document.addEventListener("click", () => {
-            // Tu código aquí
+            if (!gameStarted) {
+                gameStarted = true;
+                startTimer();
+            }
         });
 
-        // Iniciar el bucle principal
+        // Iniciar el bucle del juego
         setInterval(gameLoop, 1000 / 60); // 60 FPS
     </script>
 </body>
