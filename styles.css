@@ -1,0 +1,227 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    flex-direction: column;
+}
+
+#gameVisuals {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+#gameContainer {
+    position: relative;
+    max-width: 90vw;
+        max-height: 90vh;
+    background-color: #fff;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2vh 2vw;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+#infoBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 8vh;
+    padding: 0 2vw;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    border-radius: 1em;
+    font-size: 2vw;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1vh;
+    box-sizing: border-box;
+}
+
+#scoreBar {
+    width: 70%;
+    height: 100%;
+    background: #ccc;
+    border-radius: 1em;
+    position: relative;
+    overflow: hidden;
+}
+
+#scoreBarProgress {
+    width: 0%;
+    height: 100%;
+    background: green;
+    border-radius: 1em;
+    transition: width 0.3s ease-in-out;
+}
+
+#scoreText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: 1.5vw;
+}
+
+#timeDisplay {
+    width: 20%;
+    font-size: 2vw;
+    text-align: right;
+}
+
+#clock {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5vw;
+    height: 10vh;
+}
+
+#clockBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('Resources/reloj.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+#clockTens,
+#clockOnes {
+    position: absolute;
+    top: 50%;
+    transform: translate(55%, -30%);
+    z-index: 2;
+    width: 1.5vw;
+    height: 1.5vw;
+}
+
+#clockTens {
+    left: 0;
+}
+
+#clockOnes {
+    left: 1.6vw;
+}
+
+canvas {
+    background: url('Resources/casa.png') no-repeat center;
+    background-size: cover;
+    border: 0.5em solid #1d7e25;
+    border-radius: 1em;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-top: 1vh;
+    width: 100%;
+    height: 100%;
+}
+
+#mobileControls {
+    bottom: 10vh;
+    /* Distancia desde el fondo */
+    left: 10vw;
+    /* Distancia desde el lado izquierdo */
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Solo una columna */
+    grid-template-rows: 1fr 1fr 1fr;
+    /* Tres filas para los botones */
+    gap: 2vw;
+    /* Espacio entre los botones */
+    justify-items: center;
+    align-items: center;
+    z-index: 2;
+}
+
+#mobileControls button {
+    width: 3vw;
+    /* Ajusta el tamaño de los botones */
+    height: 3vw;
+    /* Ajusta el tamaño de los botones */
+    font-size: 1vw;
+    /* Ajusta el tamaño de la fuente */
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#moveUp {
+    grid-row: 1;
+    /* Coloca el botón hacia arriba en la primera fila */
+}
+
+#moveDown {
+    grid-row: 3;
+    /* Coloca el botón hacia abajo en la tercera fila */
+}
+
+#moveLeft {
+    grid-column: 1;
+    /* Coloca el botón izquierdo en la columna única */
+    grid-row: 2;
+    /* Coloca el botón izquierdo en la segunda fila */
+    margin-right: 10vw;
+}
+
+#moveRight {
+    grid-column: 1;
+    /* Coloca el botón derecho en la columna única */
+    grid-row: 2;
+    /* Coloca el botón derecho en la segunda fila */
+    margin-left: 10vw;
+    /* Desplaza el botón hacia la derecha */
+}
+
+/* Botón para controlar la música */
+.musicButton {
+    position: fixed;
+    bottom: 5vh;
+    left: 5vw;
+    font-size: 1vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 1em;
+    transition: background-color 0.3s ease;
+    z-index: 10;
+}
+
+.musicButton:active {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Media query para dispositivos móviles y tabletas */
+@media (max-width: 768px) {
+
+    /* Los controles de movimiento solo se mostrarán en pantallas con un ancho máximo de 768px (típico para tablets y móviles) */
+    #mobileControls {
+        display: grid;
+    }
+}
+
+/* Media query para pantallas de escritorio o mayores */
+@media (min-width: 769px) {
+
+    /* En pantallas más grandes (desktops), los controles se ocultan */
+    #mobileControls {
+        display: none;
+    }
+}
+
