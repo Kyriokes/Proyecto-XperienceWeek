@@ -10,6 +10,35 @@ let score = 0;
 let countdown = 60;
 let gameStarted = false;
 
+let isPaused = false; // Estado del juego (inicialmente no está pausado)
+let gameInterval; // Variable que almacena el intervalo de actualización del juego (si usas intervalos)
+let timer; // Variable del temporizador del juego (si lo tienes)
+
+// Referencias al botón y al audio
+const toggleMusicButton = document.getElementById("toggleMusic");
+const backgroundMusic = document.getElementById("backgroundMusic");
+
+// Reproducir música por defecto
+backgroundMusic.play();
+
+// Variable para controlar el estado de la música
+let musicOn = true;
+
+// Función para alternar la música
+function toggleMusic() {
+    if (musicOn) {
+        backgroundMusic.pause(); // Detener música
+        toggleMusicButton.textContent = "🔇"; // Cambiar el ícono del botón
+    } else {
+        backgroundMusic.play(); // Reproducir música
+        toggleMusicButton.textContent = "🔊"; // Cambiar el ícono del botón
+    }
+    musicOn = !musicOn; // Cambiar el estado
+}
+
+// Asignar el evento de clic al botón
+toggleMusicButton.addEventListener("click", toggleMusic);
+
 const colors = ["green", "yellow", "red", "violet"];
 
 const digitImages = [
@@ -167,18 +196,18 @@ const moveRightButton = document.getElementById("moveRight");
 // Manejadores de eventos táctiles para los botones
 moveUpButton.addEventListener("touchstart", (e) => {
     e.preventDefault(); // Prevenir eventos del navegador
-   
+
     movement.up = true;
 });
 moveUpButton.addEventListener("touchend", (e) => {
     e.preventDefault(); // Prevenir eventos del navegador
-   
+
     movement.up = false;
 });
 
 moveDownButton.addEventListener("touchstart", (e) => {
     e.preventDefault(); // Prevenir eventos del navegador
-  
+
     movement.down = true;
 });
 moveDownButton.addEventListener("touchend", (e) => {
@@ -200,12 +229,12 @@ moveLeftButton.addEventListener("touchend", (e) => {
 
 moveRightButton.addEventListener("touchstart", (e) => {
     e.preventDefault(); // Prevenir eventos del navegador
-   
+
     movement.right = true;
 });
 moveRightButton.addEventListener("touchend", (e) => {
     e.preventDefault(); // Prevenir eventos del navegador
- 
+
     movement.right = false;
 });
 

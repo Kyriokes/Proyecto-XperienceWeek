@@ -18,7 +18,8 @@ body {
 
 #gameContainer {
     position: relative;
-    max-height: 100%;
+    max-width: 90vw;
+        max-height: 90vh;
     background-color: #fff;
     box-sizing: border-box;
     display: flex;
@@ -128,24 +129,29 @@ canvas {
 }
 
 #mobileControls {
-
     bottom: 10vh;
     /* Distancia desde el fondo */
     left: 10vw;
     /* Distancia desde el lado izquierdo */
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5vw;
+    grid-template-columns: 1fr;
+    /* Solo una columna */
+    grid-template-rows: 1fr 1fr 1fr;
+    /* Tres filas para los botones */
+    gap: 2vw;
+    /* Espacio entre los botones */
     justify-items: center;
-    width: 60vw;
-    /* Ajustar el ancho de los controles */
+    align-items: center;
     z-index: 2;
 }
 
 #mobileControls button {
-    width: 10vw;
-    height: 10vw;
-    font-size: 4vw;
+    width: 3vw;
+    /* Ajusta el tamaño de los botones */
+    height: 3vw;
+    /* Ajusta el tamaño de los botones */
+    font-size: 1vw;
+    /* Ajusta el tamaño de la fuente */
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     border: none;
@@ -154,6 +160,68 @@ canvas {
     transition: background-color 0.3s ease;
 }
 
-#mobileControls button:active {
+#moveUp {
+    grid-row: 1;
+    /* Coloca el botón hacia arriba en la primera fila */
+}
+
+#moveDown {
+    grid-row: 3;
+    /* Coloca el botón hacia abajo en la tercera fila */
+}
+
+#moveLeft {
+    grid-column: 1;
+    /* Coloca el botón izquierdo en la columna única */
+    grid-row: 2;
+    /* Coloca el botón izquierdo en la segunda fila */
+    margin-right: 10vw;
+}
+
+#moveRight {
+    grid-column: 1;
+    /* Coloca el botón derecho en la columna única */
+    grid-row: 2;
+    /* Coloca el botón derecho en la segunda fila */
+    margin-left: 10vw;
+    /* Desplaza el botón hacia la derecha */
+}
+
+/* Botón para controlar la música */
+.musicButton {
+    position: fixed;
+    bottom: 5vh;
+    left: 5vw;
+    font-size: 1vw;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 1em;
+    transition: background-color 0.3s ease;
+    z-index: 10;
+}
+
+.musicButton:active {
     background-color: rgba(255, 255, 255, 0.7);
 }
+
+/* Media query para dispositivos móviles y tabletas */
+@media (max-width: 768px) {
+
+    /* Los controles de movimiento solo se mostrarán en pantallas con un ancho máximo de 768px (típico para tablets y móviles) */
+    #mobileControls {
+        display: grid;
+    }
+}
+
+/* Media query para pantallas de escritorio o mayores */
+@media (min-width: 769px) {
+
+    /* En pantallas más grandes (desktops), los controles se ocultan */
+    #mobileControls {
+        display: none;
+    }
+}
+
