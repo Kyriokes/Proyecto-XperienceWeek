@@ -2,50 +2,77 @@
 <html lang="en">
 
 <head>
+    <!-- Definir el tipo de codificación de caracteres y la visualización en dispositivos móviles -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título del juego que aparecerá en la pestaña del navegador -->
     <title>Juego de la Cuarentena</title>
+
+    <!-- Icono de la pestaña del navegador -->
     <link rel="icon" href="Resources/player.gif">
-    <link rel="stylesheet" href="styles.css"> <!-- Enlace al archivo CSS -->
+
+    <!-- Enlace al archivo CSS para el estilo de la página -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+    <!-- Contenedor principal para los elementos visuales del juego -->
     <section id="gameVisuals">
         <section id="gameContainer">
+            <!-- Barra de información del juego (puntaje y tiempo) -->
             <div id="infoBar">
+
+                <!-- Barra de puntaje -->
                 <div id="scoreBar">
+                    <!-- Barra de progreso del puntaje -->
                     <div id="scoreBarProgress"></div>
+                    <!-- Texto que muestra el puntaje actual -->
                     <div id="scoreText">Puntos: 0</div>
                 </div>
+
+                <!-- Muestra el tiempo de cuenta regresiva -->
                 <div id="timeDisplay">
                     <div id="clock">
+                        <!-- Fondo del reloj -->
                         <div id="clockBackground"></div>
+
+                        <!-- Imagen de las decenas del reloj -->
                         <img id="clockTens" src="Resources/cero.gif" alt="Tens">
+
+                        <!-- Imagen de las unidades del reloj -->
                         <img id="clockOnes" src="Resources/cero.gif" alt="Ones">
                     </div>
                 </div>
             </div>
+
+            <!-- Canvas donde se dibujan los elementos del juego -->
             <canvas id="gameCanvas" width="600" height="600"></canvas>
         </section>
     </section>
+
+    <!-- Controles móviles para mover al jugador -->
     <div id="mobileControls">
+        <!-- Botones para mover al jugador -->
         <button id="moveUp">↑</button>
         <button id="moveLeft">←</button>
         <button id="moveRight">→</button>
         <button id="moveDown">↓</button>
     </div>
 
-    <!-- Botón para activar/desactivar la música -->
+    <!-- Botón para activar o desactivar la música -->
     <button id="toggleMusic" class="musicButton">🔊</button>
-    
-    
-    <!-- Música de fondo -->
+
+    <!-- Música de fondo que se reproduce mientras se juega -->
     <audio id="backgroundMusic" loop>
+        <!-- Ruta del archivo de audio (formato WAV) -->
         <source src="Resources/cuarentena.wav" type="audio/wav">
+
+        <!-- Mensaje en caso de que el navegador no soporte el formato de audio -->
         Tu navegador no soporta el formato de audio.
     </audio>
 
-
+    <!-- Enlace al archivo JavaScript que contiene la lógica del juego -->
     <script src="script.js"></script>
 </body>
 
