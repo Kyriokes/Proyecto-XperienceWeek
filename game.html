@@ -2,18 +2,13 @@
 <html lang="en">
 
 <head>
-    <!-- Definir el tipo de codificación de caracteres y la visualización en dispositivos móviles -->
-    <meta charset="UTF-8">
+    <meta charset="UTF-8">  <!-- Definir el tipo de codificación de caracteres y la visualización en dispositivos móviles -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!--para mejor compatibilidad con navegadores antiguos.-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Título del juego que aparecerá en la pestaña del navegador -->
-    <title>Juego de la Cuarentena</title>
-
-    <!-- Icono de la pestaña del navegador -->
-    <link rel="icon" href="Resources/player.gif">
-
-    <!-- Enlace al archivo CSS para el estilo de la página -->
-    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Juego interactivo de cuarentena donde acumulas puntos mientras controlas un personaje.">
+    <title>Juego de la Cuarentena</title> <!-- Título del juego que aparecerá en la pestaña del navegador -->
+    <link rel="icon" href="Resources/player.gif">  <!-- Icono de la pestaña del navegador -->  
+    <link rel="stylesheet" href="styles.css">  <!-- Enlace al archivo CSS para el estilo de la página -->
 </head>
 
 <body>
@@ -67,24 +62,19 @@
     </section>
 
     <!-- Controles móviles para mover al jugador -->
-    <div id="mobileControls">
+    <nav id="mobileControls">
         <!-- Botones para mover al jugador -->
-        <button id="moveUp">↑</button>
-        <button id="moveLeft">←</button>
-        <button id="moveRight">→</button>
-        <button id="moveDown">↓</button>
-    </div>
+        <button id="moveUp" aria-label="moveUp">↑</button>
+        <button id="moveLeft" aria-label="moveLeft">←</button>
+        <button id="moveRight" aria-label="moveRight">→</button>
+        <button id="moveDown" aria-label="moveDown">↓</button>
+    </nav>
 
-    <!-- Botón para activar o desactivar la música-->
-    <button id="toggleMusic" class="musicButton">🔊</button>
-
-    <!-- Control deslizante para el volumen -->
-    <div class="volume-icon-container">
-        <div class="volume-icon"> <label for="volumeControl">Volumen:</label>
-            <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
-        </div>
-    </div>
-
+ <section id="audiocontrols">
+    <button id="toggleMusic" aria-label="Activar/Desactivar musica" >🔊</button> <!-- Botón para activar o desactivar la música-->   
+    <label for="volumeControl">Volumen:</label>
+    <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
+</section>
 
     <!-- Música de fondo que se reproduce mientras se juega -->
     <audio id="backgroundMusic" loop>
@@ -96,7 +86,8 @@
     </audio>
 
     <!-- Enlace al archivo JavaScript que contiene la lógica del juego -->
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 
 </html>
+
