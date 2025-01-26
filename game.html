@@ -39,7 +39,7 @@
                         <div id="clockDigits">
                             <!-- Imagen de las decenas del reloj -->
                             <img id="clockTens" src="Resources/cero.gif" alt="Tens">
-    
+
                             <!-- Imagen de las unidades del reloj -->
                             <img id="clockOnes" src="Resources/cero.gif" alt="Ones">
                         </div>
@@ -49,6 +49,20 @@
 
             <!-- Canvas donde se dibujan los elementos del juego -->
             <canvas id="gameCanvas" width="600" height="600"></canvas>
+            <!-- Contenedor sobre el canvas, donde estará el botón para iniciar el juego y el puntaje final -->
+            <div id="gameOverlay" class="overlay">
+                <!-- Contenedor para el botón de inicio del juego -->
+                <div id="startButtonContainer" class="start-container">
+                    <button id="startButton">Iniciar Juego</button>
+                </div>
+                <!-- Contenedor para mostrar el puntaje final, inicialmente oculto -->
+                <!-- Contenedor para mostrar el puntaje final y el botón para volver a jugar -->
+                <div id="scoreContainer" class="score-container" style="display: none;">
+                    <p id="finalScore">Puntuación Final: 0</p>
+                    <button id="restartButton">Volver a Jugar</button>
+                </div>
+
+            </div>
         </section>
     </section>
 
@@ -61,8 +75,16 @@
         <button id="moveDown">↓</button>
     </div>
 
-    <!-- Botón para activar o desactivar la música -->
+    <!-- Botón para activar o desactivar la música-->
     <button id="toggleMusic" class="musicButton">🔊</button>
+
+    <!-- Control deslizante para el volumen -->
+    <div class="volume-icon-container">
+        <div class="volume-icon"> <label for="volumeControl">Volumen:</label>
+            <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
+        </div>
+    </div>
+
 
     <!-- Música de fondo que se reproduce mientras se juega -->
     <audio id="backgroundMusic" loop>

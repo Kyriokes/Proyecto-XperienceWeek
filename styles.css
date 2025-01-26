@@ -2,7 +2,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f5f5f5;
+    background-color: #473f3f;
     font-family: Arial, sans-serif;
     flex-direction: column;
 }
@@ -19,8 +19,8 @@ body {
 #gameContainer {
     position: relative;
     max-width: 90vw;
-        max-height: 90vh;
-    background-color: #fff;
+    max-height: 90vh;
+    background-color: #ca1f1f65;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -79,16 +79,16 @@ body {
 
 #clock {
     position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 8vh;
-        /* Mantén una relación proporcional con el alto */
-        height: 8vh;
-        /* Ajusta el tamaño para que no se desborde */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 8vh;
+    /* Mantén una relación proporcional con el alto */
+    height: 8vh;
+    /* Ajusta el tamaño para que no se desborde */
 
-        overflow: hidden;
-        /* Oculta cualquier contenido desbordado */
+    overflow: hidden;
+    /* Oculta cualquier contenido desbordado */
 }
 
 #clockBackground {
@@ -104,7 +104,7 @@ body {
 
 #clockDigits {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0,1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     justify-items: center;
     align-items: center;
     position: absolute;
@@ -122,6 +122,7 @@ body {
 }
 
 canvas {
+    /* El canvas tiene un z-index bajo para que el overlay se coloque encima */
     background: url('Resources/casa.png') no-repeat center;
     background-size: cover;
     border: 0.5em solid #1d7e25;
@@ -130,6 +131,54 @@ canvas {
     margin-top: 1vh;
     width: 100%;
     height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* Estilos del contenedor sobre el canvas */
+.overlay {
+    position: absolute;
+    /* Lo hace tomar todo el espacio del canvas */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Fondo semi-transparente */
+    z-index: 10;
+    /* Asegura que esté sobre el canvas */
+}
+
+/* Estilos para el contenedor del botón de inicio */
+.start-container {
+    text-align: center;
+}
+
+/* Estilos del botón de inicio */
+#startButton {
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Estilos para el contenedor del puntaje final */
+.score-container {
+    text-align: center;
+    color: white;
+    font-size: 20px;
+}
+
+/* Estilo del texto del puntaje final */
+#finalScore {
+    margin-top: 20px;
 }
 
 #mobileControls {
@@ -138,7 +187,7 @@ canvas {
     left: 10vw;
     /* Distancia desde el lado izquierdo */
     display: grid;
-grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     /* Tres columnas */
     grid-template-rows: 1fr 1fr 1fr;
     /* Tres filas */
@@ -205,6 +254,154 @@ grid-template-columns: 1fr 1fr 1fr;
 }
 
 
+/* El canvas tiene un z-index bajo para que el overlay se coloque encima */
+#gameCanvas {
+    position: relative;
+    z-index: 1;
+}
+
+/* Estilos del contenedor sobre el canvas */
+.overlay {
+    position: absolute;
+    /* Lo hace tomar todo el espacio del canvas */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Fondo semi-transparente */
+    z-index: 10;
+    /* Asegura que esté sobre el canvas */
+}
+
+/* Estilos para el contenedor del botón de inicio */
+.start-container {
+    text-align: center;
+}
+
+/* Estilos del botón de inicio */
+#restartButton,
+#startButton {
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Estilos para el contenedor del puntaje final */
+.score-container {
+    text-align: center;
+    color: white;
+    font-size: 20px;
+}
+
+/* Estilo del texto del puntaje final */
+#finalScore {
+    margin-top: 20px;
+}
+
+/* Contenedor general para el ícono del volumen */
+.volume-icon-container {
+    margin-top: 20px;
+    /* Posición en la parte superior de la pantalla */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo semitransparente */
+    padding: 10px 15px;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    /* Sombra sutil */
+    color: white;
+}
+
+/* Estilo para el contenedor del ícono del volumen y el slider */
+.volume-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Estilo para la etiqueta del volumen */
+.volume-icon label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Estilo para el control deslizante (input range) */
+#volumeControl {
+    width: 150px;
+    -webkit-appearance: none;
+    /* Eliminar el estilo predeterminado */
+    appearance: none;
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #4caf50, #ffeb3b, #f44336);
+    /* Gradiente de colores */
+    outline: none;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Estilo para el "thumb" del control deslizante */
+#volumeControl::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid #888;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Cambiar color del thumb cuando el usuario interactúa */
+#volumeControl:hover::-webkit-slider-thumb {
+    background-color: #ffeb3b;
+    /* Color amarillo brillante */
+}
+
+/* Para Firefox y otros navegadores que no son Webkit */
+#volumeControl::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid #888;
+    cursor: pointer;
+}
+
+#volumeControl::-moz-range-track {
+    background: linear-gradient(to right, #4caf50, #ffeb3b, #f44336);
+    height: 8px;
+    border-radius: 5px;
+}
+
+/* Para IE */
+#volumeControl::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid #888;
+    cursor: pointer;
+}
+
+#volumeControl::-ms-track {
+    background: linear-gradient(to right, #4caf50, #ffeb3b, #f44336);
+    height: 8px;
+    border-radius: 5px;
+    border: none;
+}
 
 
 
@@ -219,9 +416,9 @@ grid-template-columns: 1fr 1fr 1fr;
         display: grid;
     }
 
-        #scoreBar {
-            width: 80%;
-        }
+    #scoreBar {
+        width: 80%;
+    }
 
 }
 
@@ -233,4 +430,3 @@ grid-template-columns: 1fr 1fr 1fr;
         display: none;
     }
 }
-
