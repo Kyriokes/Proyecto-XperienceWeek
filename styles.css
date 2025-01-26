@@ -1,4 +1,12 @@
-body {
+:root {
+    --background-color: #473f3f;
+    --primary-color: #4CAF50;
+    --secondary-color: #1d7e25;
+    --text-color: #fff;
+    --overlay-color: rgba(0, 0, 0, 0.7);
+    --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    --font-family: Arial, sans-serif;
+}body {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -306,106 +314,100 @@ canvas {
     margin-top: 20px;
 }
 
-/* Contenedor general para el ícono del volumen */
-.volume-icon-container {
-    margin-top: 20px;
-    /* Posición en la parte superior de la pantalla */
+
+/* Contenedor principal de los controles de audio */
+#audiocontrols {
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    /* Fondo semitransparente */
+    justify-content: space-around;
+    width: 100%;
+    max-width: 400px;
     padding: 10px 15px;
-    border-radius: 25px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    /* Sombra sutil */
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
     color: white;
+    margin: 10px auto;
 }
 
-/* Estilo para el contenedor del ícono del volumen y el slider */
-.volume-icon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Botón de encendido/apagado de la música */
+#toggleMusic {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.2s ease, color 0.3s ease;
 }
 
-/* Estilo para la etiqueta del volumen */
-.volume-icon label {
+#toggleMusic:hover {
+    transform: scale(1.2);
+    color: #1db954;
+}
+
+/* Etiqueta del volumen */
+#audiocontrols label {
     font-size: 16px;
-    margin-bottom: 5px;
     font-weight: bold;
+    margin-right: 10px;
 }
 
-/* Estilo para el control deslizante (input range) */
+/* Barra de volumen con efecto digital */
 #volumeControl {
     width: 150px;
     -webkit-appearance: none;
-    /* Eliminar el estilo predeterminado */
     appearance: none;
     height: 8px;
     border-radius: 5px;
     background: linear-gradient(to right, #4caf50, #ffeb3b, #f44336);
-    /* Gradiente de colores */
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
     outline: none;
     cursor: pointer;
-    transition: background 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out, box-shadow 0.2s ease;
 }
 
-/* Estilo para el "thumb" del control deslizante */
+#volumeControl:hover {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Personalización del control deslizante (thumb) */
 #volumeControl::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    background-color: white;
+    background: white;
     border: 2px solid #888;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: transform 0.2s ease, background 0.3s ease;
 }
 
-/* Cambiar color del thumb cuando el usuario interactúa */
 #volumeControl:hover::-webkit-slider-thumb {
-    background-color: #ffeb3b;
-    /* Color amarillo brillante */
+    background: #ffeb3b;
+    transform: scale(1.2);
 }
 
-/* Para Firefox y otros navegadores que no son Webkit */
+/* Firefox */
 #volumeControl::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    background-color: white;
+    background: white;
     border: 2px solid #888;
     cursor: pointer;
 }
 
-#volumeControl::-moz-range-track {
-    background: linear-gradient(to right, #4caf50, #ffeb3b, #f44336);
-    height: 8px;
-    border-radius: 5px;
-}
-
-/* Para IE */
+/* IE */
 #volumeControl::-ms-thumb {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    background-color: white;
+    background: white;
     border: 2px solid #888;
     cursor: pointer;
 }
-
-#volumeControl::-ms-track {
-    background: linear-gradient(to right, #4caf50, #ffeb3b, #f44336);
-    height: 8px;
-    border-radius: 5px;
-    border: none;
-}
-
-
-
-
 
 
 /* Media query para dispositivos móviles y tabletas */
